@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: fuel_transactions_all_time
+    description: >
+      All fuel transactions from 2018-01-01 onwards. Incremental model that appends
+      new transactions daily based on CapturedDate.
+
+    columns:
+      - name: FuelTransactionID
+        description: Unique identifier for each fuel transaction
+        tests:
+          - not_null
+          - unique
+
+      - name: TFNCustomerID
+        description: TFN customer identifier
+
+      - name: CustomerID
+        description: Customer identifier
+
+      - name: CardAuthorisationID
+        description: Card authorisation identifier linked to this transaction
+
+      - name: CardAuthorisationCustomerID
+        description: Customer ID from the card authorisation
+
+      - name: CardPaymentMachineOwnedByID
+        description: Identifier of the entity that owns the payment machine
+
+      - name: DeviceID
+        description: Device identifier used for the transaction
+
+      - name: CapturedDate
+        description: Date the transaction was captured
+        tests:
+          - not_null
+
+      - name: ServiceProviderID
+        description: Service provider identifier
+
+      - name: ProductID
+        description: Product identifier for the fuel product
+
+      - name: PromotionID
+        description: Promotion identifier if a promotion was applied
+
+      - name: SupplySiteID
+        description: Supply site (depot) where the transaction occurred
+
+      - name: TransactionAmount
+        description: Transaction amount in currency

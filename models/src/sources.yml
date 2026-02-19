@@ -1,0 +1,120 @@
+version: 2
+
+sources:
+  - name: tfn_monday
+    description: TFN Monday dataset
+    database: tfn-data-warehouse
+    schema: tfn_monday
+    tables:
+      - name: depot_info
+        description: Depot information from Monday system
+      - name: new_customer_program
+      - name: customer_profile
+        
+  - name: tfn_ops_dashboards
+    description: TFN Operations Dashboards dataset
+    database: tfn-data-warehouse
+    schema: tfn_ops_dashboards
+    tables:
+      - name: precalculated_transaction_data_partitioned
+        description: Precalculated transaction data with partitioning
+      - name: tfn_promotions_at_depot
+
+  - name: tfn_reports
+    database: tfn-data-warehouse
+    schema: tfn_reports
+    tables:
+      - name: orders
+        description: Orders data
+      - name: card_authorisations_all_time
+      - name: tfn_all_transactions
+      - name: fuel_transactions_all_time
+  
+  - name: tfn_data
+    database: tfn-data-warehouse
+    schema: tfn_data
+    tables:
+      - name: tfn_live_vehicles
+      - name: tfn_demo_customer
+      - name: tfn_funder
+      - name: tfn_product
+      - name: tfn_product_category
+      - name: tfn_area
+      - name: tfn_agent
+      - name: tfn_fuel_transactions_all_time
+        description: All-time fuel transactions data
+      - name: tfn_pricing_2022_transaction
+        description: 2022 pricing transaction data
+      - name: tfn_pricing_2022_consignmnent_invoice
+        description: 2022 pricing consignment invoice data
+      - name: tfn_fuel_transaction_discount_all_time
+        description: All-time fuel transaction discount data
+      - name: order_instance_item
+        description: Order instance item data
+      - name: order_instance_item_linked_transaction
+        description: Order instance item linked transaction data
+      - name: vehicle
+        description: Vehicle data
+      - name: vbi_vehicle_tank_size
+        description: VBI vehicle tank size data
+      - name: supply_site
+        description: Supply site (depot) master data
+
+  - name: tfn_data_historical
+    database: tfn-data-warehouse
+    schema: tfn_data_historical
+    tables:
+      - name: fuel_transactions
+        description: Fuel transaction data
+      - name: customer
+        description: Customer master data
+      - name: card_authorisations
+        description: Card authorisations data
+
+  - name: nto_data
+    description: NTO data warehouse dataset
+    database: tfn-data-warehouse
+    schema: nto_data
+    tables:
+      - name: nto_supplier_order
+        description: NTO supplier order information
+      - name: nto_buyer_order_loads
+        description: NTO buyer order loads data
+      - name: nto_buyer_order
+        description: NTO buyer order information
+      - name: nto_supplier_deal
+        description: NTO supplier deal information
+      - name: nto_status
+        description: NTO status information
+      - name: nto_loads
+        description: NTO loads information
+      - name: nto_transporter
+        description: NTO transporter information
+      - name: nto_load_delivery_update
+        description: NTO load delivery update information
+      - name: nto_vehicle
+        description: NTO vehicle information
+      - name: nto_customer
+        description: NTO customer information
+      - name: nto_order_load_transaction
+        description: NTO order load transaction information
+      - name: nto_adhoc_fixed_volume_deal
+        description: NTO adhoc fixed volume deal information
+      - name: nto_order_load_transaction_all_types
+        description: NTO order load transaction all types information
+      - name: nto_order_load_linked_transaction_type
+        description: NTO order load linked transaction type information
+      - name: nto_buyer_delivered_rebate_band_set
+        description: NTO buyer delivered rebate band set information
+      - name: nto_buyer_delivered_rebate_band_value
+        description: NTO buyer delivered rebate band value information
+      - name: nto_sales_agent_commission_rate
+        description: NTO sales agent commission rate information
+      - name: nto_buyer_collected_rebate_value
+        description: NTO buyer collected rebate value information
+      - name: nto_product
+        description: NTO product information
+      - name: nto_depot
+        description: NTO depot information
+      - name: nto_adhoc_fixed_volume_deal_type
+        description: NTO adhoc fixed volume deal type information

@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: nto_wholesale_data
+    description: >
+      NTO Wholesale Data report combining adhoc fixed volume deal information 
+      with aggregated sold (buyer order) and purchased (supplier order) litres.
+      Excludes cancelled orders from both buyer and supplier sides.
+    columns:
+      - name: DealIdentifier
+        description: Unique identifier for the deal
+        tests:
+          - not_null
+
+      - name: AdhocFixedVolumeDealID
+        description: Primary key for the adhoc fixed volume deal
+        tests:
+          - not_null
+          - unique
+
+      - name: Product
+        description: Product title/name
+        tests:
+          - not_null
+
+      - name: Depot
+        description: Depot title where the deal is located
+
+      - name: Volume
+        description: Total volume of the deal
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+              config:
+                severity: warn
+
+      - name: SoldLitres
+        description: >
+          Aggregated litres from buyer orders (uses FinalLitres if > 0, 
+          otherwise RequestedLitres). Excludes cancelled orders.
+
+      - name: PurchasedLitres
+        description: >
+          Aggregated litres from supplier orders (uses FinalLitres if > 0, 
+          otherwise UpliftedLitres if > 0, otherwise RequestedLitres). 
+          Excludes cancelled orders.
+
+      - name: AvailableFromDate
+        description: Date from which the deal is available
+
+      - name: StartDate
+        description: Start date of the deal
+
+      - name: EndDate
+        description: End date of the deal
+
+      - name: Rebate
+        description: Rebate amount (can change during the span of the deal)
+
+      - name: FinalSupplierPrice
+        description: Final supplier price (can change during the span of the deal)
+
+      - name: InitialSupplierNetPrice
+        description: Initial supplier net price (can change during the span of the deal)
+

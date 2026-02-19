@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: data_tool
+    description: >
+      Aggregated fuel transaction data tool providing daily summaries of fuel volumes
+      by date, customer, and supply site. Materialized as an incremental table partitioned
+      by date with monthly granularity and clustered by customer identifiers for optimal
+      query performance.
+
+    columns:
+      - name: Date
+        description: The date of the fuel transaction (extracted from CapturedDate)
+        data_type: DATE
+        tests:
+          - not_null
+
+      - name: TFNCustomerID
+        description: >
+          The TFN customer identifier. Uses ServiceProviderID if available (non-empty GUID),
+          otherwise defaults to CustomerID. This is the primary customer identifier for reporting.
+        data_type: STRING
+
+
+      - name: ServiceProviderID
+        description: >
+          The service provider identifier (GUID). May be the empty GUID
+          ('00000000-0000-0000-0000-000000000000') if no service provider is assigned.
+        data_type: STRING
+        tests:
+          - not_null
+
+      - name: CustomerID
+        description: >
+          The customer identifier (GUID). Used as TFNCustomerID when ServiceProviderID
+          is empty.
+        data_type: STRING
+        tests:
+          - not_null
+
+      - name: SupplySiteID
+        description: The unique identifier for the supply site where fuel was dispensed
+        data_type: STRING
+
+
+      - name: Depot
+        description: >
+          The title/name of the supply site (depot). Extracted from the SupplySite table.
+        data_type: STRING
+
+
+      - name: Customer
+        description: >
+          The title/name of the customer. Extracted from the Customer table using
+          the TFNCustomerID (ServiceProviderID or CustomerID).
+        data_type: STRING
+        tests:
+          - not_null
+
+      - name: LitreAmount
+        description: >
+          The total fuel volume in litres for the given date, customer, and supply site.
+          Aggregated from all non-reversed, non-deleted, non-reporting-only transactions.
+        data_type: FLOAT64

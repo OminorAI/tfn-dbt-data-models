@@ -1,0 +1,14 @@
+tfn_dbt:
+  outputs:
+    prod:
+      type: bigquery
+      project: "{{ env_var('DBT_BQ_PROJECT') }}"
+      dataset: "{{ env_var('DBT_BQ_DATASET', 'analytics') }}"  # fallback only, overridden by +schema in dbt_project.yml
+      threads: 4
+      timeout_seconds: 300
+      location: EU
+      priority: batch           # batch is better for scheduled jobs (not interactive)
+      retries: 1
+      method: service-account
+      keyfile: /app/service-account.json
+  target: prod

@@ -1,0 +1,235 @@
+version: 2
+
+models:
+  - name: vw_nto_supplier_order
+    description: NTO Supplier Order information combining order details with status and buyer order relationships
+    columns:
+      - name: SupplierOrder
+        description: Supplier order number title
+        tests:
+          - not_null
+          
+      - name: Supplier
+        description: Supply site title/name
+        tests:
+          - not_null
+          
+      - name: StatusID
+        description: Status identifier
+        tests:
+          - not_null
+          
+      - name: PlacedDate
+        description: Date when the supplier order was placed
+        tests:
+          - not_null
+          
+      - name: Litres
+        description: Requested litres for the order
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+              config:
+                severity: warn
+              
+      - name: FinalLitres
+        description: Final litres delivered (blended with requested litres)
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+              config:
+                severity: warn
+              
+      - name: SupplierRef1
+        description: Primary supplier reference
+        
+      - name: SupplierRef2
+        description: Secondary supplier reference
+        
+      - name: Product
+        description: Product title
+        tests:
+          - not_null
+          
+      - name: SupplyDepot
+        description: Supply depot title
+        tests:
+          - not_null
+          
+      - name: ReleaseNumber
+        description: Release number for the order
+        
+      - name: LoadNo
+        description: Load ID number
+        tests:
+          - not_null
+          
+      - name: BuyerOrder
+        description: Associated buyer order number
+        tests:
+          - not_null
+
+      - name: SupplyDeal
+        description: Supply deal identifier
+
+  - name: vw_nto_load
+    description: NTO Loads information combining load details with transporter, vehicle, and order information
+    columns:
+      - name: LoadName
+        description: Load number/name
+        tests:
+          - unique
+          - not_null
+          
+      - name: StatusID
+        description: Load status identifier
+        tests:
+          - not_null
+          
+      # - name: StatusTitle
+      #   description: Load status title/description
+      #   tests:
+      #     - not_null
+          
+      # - name: DeliveryDate
+      #   description: Scheduled delivery date
+      #   tests:
+      #     - not_null
+          
+      # - name: TransporterID
+      #   description: Transporter identifier
+      #   tests:
+      #     - not_null
+          
+      # - name: Transporter
+      #   description: Transporter company title
+      #   tests:
+      #     - not_null
+          
+      # - name: Fleet
+      #   description: Fleet number of the vehicle
+        
+      # - name: Driver
+      #   description: Driver full name
+      #   tests:
+      #     - not_null
+          
+      # - name: LoadingPoint
+      #   description: Loading point/supply site
+      #   tests:
+      #     - not_null
+          
+      # - name: DeliveryPointID
+      #   description: Delivery depot identifier
+      #   tests:
+      #     - not_null
+          
+      # - name: BuyerOrder
+      #   description: Associated buyer order number
+      #   tests:
+      #     - not_null
+          
+      # - name: SupplierRef
+      #   description: Supplier reference number
+        
+      # - name: SupplierOrderNumber
+      #   description: Supplier order number
+      #   tests:
+      #     - not_null
+          
+      # - name: POD
+      #   description: Proof of Delivery (customer reference)
+
+  - name: vw_nto_buyer_order
+    description: NTO Buyer Order information including customer details, pricing, and payment information
+    columns:
+      - name: CustomerTitle
+        description: Customer company title/name
+        tests:
+          - not_null
+          
+      - name: StatusID
+        description: Order status identifier
+        tests:
+          - not_null
+          
+      - name: StatusTitle
+        description: Order status description
+        tests:
+          - not_null
+          
+      - name: Litres
+        description: Requested litres for the buyer order
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 100000
+              config:
+                severity: warn
+
+  - name: vw_nto_supplier_order_with_buyer_orders
+    description: NTO Supplier Order information combining order details with status and buyer order relationships
+    columns:
+      - name: SupplierOrder
+        description: Supplier order number title
+        tests:
+          - not_null
+              
+      # - name: InvoiceDate
+      #   description: Date when the order was invoiced
+      #   tests:
+      #     - not_null
+          
+      # - name: POD
+      #   description: Proof of Delivery reference (customer reference)
+        
+      # - name: SellingPrice
+      #   description: Buyer price for the order
+      #   tests:
+      #     - not_null
+      #     - dbt_utils.accepted_range:
+      #         min_value: 0
+      #         severity: warn
+              
+      # - name: Interest
+      #   description: Interest rate applied to the order
+      #   tests:
+      #     - dbt_utils.accepted_range:
+      #         min_value: 0
+      #         max_value: 100
+      #         severity: warn
+
+# Source documentation for nto_data tables
+# sources:
+#   - name: nto_data
+#     description: NTO data warehouse containing operational data
+#     tables:
+#       - name: nto_supplier_order
+#         description: Core supplier order data
+#         columns:
+#           - name: LoadID
+#             description: Unique load identifier
+#             tests:
+#               - not_null
+              
+#       - name: nto_buyer_order
+#         description: Core buyer order data
+#         columns:
+#           - name: CustomerTitle
+#             description: Customer name
+#             tests:
+#               - not_null
+              
+#       - name: nto_loads
+#         description: Load tracking information
+#         columns:
+#           - name: LoadNumber
+#             description: Unique load number
+#             tests:
+#               - unique
+#               - not_null

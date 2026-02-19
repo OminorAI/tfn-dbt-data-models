@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: tfn_orders_with_drivers
+    description: >
+      Orders with driver information from 2025 onwards. Incremental model that deduplicates
+      and appends only new orders daily. Duplicates are removed keeping the most recent record.
+
+    columns:
+      - name: OrderNumberTitle
+        description: Order number title
+
+      - name: DriverID
+        description: Driver identifier
+
+      - name: CapturedDate
+        description: Date the order was captured
+        tests:
+          - not_null
+
+      - name: CardID
+        description: Card identifier associated with the order
+
+      - name: FullNumber
+        description: Full customer number
+
+      - name: DepotName
+        description: Name of the depot/supply site
+
+      - name: CustomerName
+        description: Customer name
+
+      - name: IsDeleted
+        description: Flag indicating if the order is deleted
+
+      - name: VehicleID
+        description: Vehicle identifier
+
+      - name: CustomerNumber
+        description: Customer number
+
+      - name: SupplierNumber
+        description: Supplier/supply site number
+
+      - name: ProductCode
+        description: Product code for the order
+
+      - name: VehicleRegistration
+        description: Vehicle registration number
+
+      - name: MaxLitres
+        description: Maximum litres for the order
+
+      - name: MaxAmount
+        description: Maximum amount for the order
+
+      - name: ValidDateStart
+        description: Valid date start for the order
+
+      - name: ValidDateEnd
+        description: Valid date end for the order

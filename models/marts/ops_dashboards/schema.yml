@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: tfn_supplier_manager
+    description: Supplier manager view combining transaction data with depot information
+    columns:
+      - name: date
+        description: Transaction date
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'2020-01-01'"
+              max_value: "current_date()"
+              
+      - name: Customer
+        description: Customer name
+        tests:
+          - not_null
+          
+      - name: FullNumber
+        description: Customer full number
+          
+      - name: SupplySiteID
+        description: Supply site identifier
+        tests:
+          - not_null
+          - relationships:
+              to: source('tfn_monday', 'depot_info')
+              field: supply_site_id
+              
+      - name: DepotName
+        description: Name of the depot
+        tests:
+          - not_null
+          
+      - name: LitreAmount
+        description: Amount of fuel in litres
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 10000
+              severity: warn
+              
+      - name: TransactionAmount
+        description: Transaction amount in currency
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              severity: warn
+          
+      - name: Supplier_Manager
+        description: Name of the supplier manager
+        tests:
+          - not_null
+  - name: tfn_supplier_data
+    description: Supplier data view combining transaction data with depot information
+    columns:
+      - name: date
+        description: Transaction date
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'2001-01-01'"
+              max_value: "current_date()"
+              
+  - name: tfn_supplier_data_2
+    description: Supplier data view combining transaction data with depot information
+    columns:
+      - name: date
+        description: Transaction date
+          
+          
+      # - name: simplified_status
+      #   description: Simplified status derived from original status
+      #   tests:
+      #     - not_null
+      #     - accepted_values:
+      #         values: ['Completed', 'In Progress']

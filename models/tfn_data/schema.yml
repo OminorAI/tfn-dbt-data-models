@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: tfn_live_vehicles
+    description: Live vehicles view combining vehicle data with tank size information
+    columns:
+      - name: CustomerName
+        description: Name of the customer
+
+      - name: TFNCustomerID
+        description: TFN customer identifier (ServiceProviderID if available, otherwise CustomerID)
+
+      - name: CustomerID
+        description: Customer identifier
+
+      - name: Registration
+        description: Vehicle registration number
+
+      - name: VIN
+        description: Vehicle Identification Number
+
+      - name: ConfiguredFuelTankSize
+        description: Configured fuel tank size in litres
+
+      - name: CurrentVehicleStatus
+        description: Current status of the vehicle
+
+      - name: CalculatedFuelTankSize
+        description: Calculated fuel tank size in litres
+
+      - name: AverageTransactionLitres
+        description: Average transaction litres for the vehicle
+
+      - name: VehicleID
+        description: Unique vehicle identifier
+        tests:
+          - not_null
+          - unique
+
+      - name: MaxObservedCapacity
+        description: Final fuel tank size (max of CalculatedFuelTankSize and ConfiguredFuelTankSize)
+        tests:
+          - not_null 
