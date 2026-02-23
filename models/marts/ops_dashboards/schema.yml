@@ -65,16 +65,3 @@ models:
               min_value: "'2001-01-01'"
               max_value: "current_date()"
               
-  - name: tfn_supplier_data_2
-    description: Supplier data view combining transaction data with depot information
-    columns:
-      - name: date
-        description: Transaction date
-          
-          
-      # - name: simplified_status
-      #   description: Simplified status derived from original status
-      #   tests:
-      #     - not_null
-      #     - accepted_values:
-      #         values: ['Completed', 'In Progress']

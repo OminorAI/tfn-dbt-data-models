@@ -38,21 +38,18 @@ SELECT
     ,ci.NetLitres AS ConsignmentLitres
     ,ca.isAuthorised
     ,ca.IsManual
-    ,CASE 
-        WHEN ft.Reversed = 0 THEN FALSE 
-        ELSE TRUE 
-    END AS Reversed
-    ,CASE 
-        WHEN olt.TransactionID IS NOT NULL THEN TRUE 
-        ELSE FALSE 
+    ,ft.Reversed
+    ,CASE
+        WHEN olt.TransactionID IS NOT NULL THEN TRUE
+        ELSE FALSE
     END AS isOrder
     ,ft.GridPrice
     ,ftd.SitePumpPrice AS PumpPrice
-    ,CASE 
+    ,CASE
         WHEN ptd.LitreAmount > 0 THEN ROUND(ptd.TransactionAmount / ptd.LitreAmount, 3)
-        ELSE NULL 
+        ELSE NULL
     END AS TFNPricing
-    
+
 
 FROM
     {{ source('tfn_ops_dashboards', 'precalculated_transaction_data_partitioned') }} AS ptd
@@ -75,9 +72,9 @@ ON
 LEFT JOIN
     {{ source('tfn_data', 'tfn_fuel_transaction_discount_all_time') }} AS ftd
 ON
-    ftd.FuelTransactionID = ft.FuelTransactionID  
+    ftd.FuelTransactionID = ft.FuelTransactionID
 LEFT JOIN (
-    SELECT 
+    SELECT
         CardAuthorisationID,
         isAuthorised,
         IsManual,
@@ -85,14 +82,14 @@ LEFT JOIN (
     FROM {{ source('tfn_data_historical', 'card_authorisations') }}
 ) AS ca
 ON
-    ca.CardAuthorisationID = ft.CardAuthorisationID 
+    ca.CardAuthorisationID = ft.CardAuthorisationID
     AND ca.rn = 1
 LEFT JOIN (
-    SELECT 
+    SELECT
         TransactionID,
         ROW_NUMBER() OVER (PARTITION BY TransactionID ORDER BY TransactionID) as rn
     FROM {{ source('tfn_data', 'order_instance_item_linked_transaction') }}
 ) AS olt
 ON
-    olt.TransactionID = ptd.TransactionID 
+    olt.TransactionID = ptd.TransactionID
     AND olt.rn = 1

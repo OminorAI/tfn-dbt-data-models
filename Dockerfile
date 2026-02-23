@@ -15,4 +15,4 @@ ENV DBT_PROFILES_DIR=/app
 RUN dbt deps
 
 # Runs all models tagged daily_run. SA JSON is mounted at runtime via Secret Manager.
-CMD ["dbt", "build", "--select", "tag:daily_run"]
+CMD ["dbt", "build", "--target", "prod", "--select", "tag:daily_run"]

@@ -25,7 +25,7 @@ card_auth AS (
     caat.CapturedDate,
     caat.VehicleID,
     v.Registration,
-    v.tfn_customer_id,
+    v.CustomerID,
     caat.SupplySiteID,
     caat.CardAuthorisationID
   FROM {{ source('tfn_reports', 'card_authorisations_all_time') }} AS caat

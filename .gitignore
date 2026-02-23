@@ -6,3 +6,4 @@ dbt_packages/
 dbt_packages
 .user.yml
 .env
+dbt_internal_packages/
