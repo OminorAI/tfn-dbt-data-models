@@ -1,5 +1,6 @@
 {{ config(
-    materialized='view'
+  materialized='view'
+  -- TODO: Add a schema name
 ) }}
 
 SELECT 

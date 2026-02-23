@@ -1,5 +1,6 @@
 {{ config(
     materialized='incremental',
+    schema='tfn_data_historical',
     unique_key=['Date', 'TFNCustomerID', 'ServiceProviderID', 'CustomerID', 'SupplySiteID'],
     partition_by={
         "field": "Date",

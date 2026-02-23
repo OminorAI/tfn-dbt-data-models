@@ -1,6 +1,7 @@
 {{
   config(
     materialized='table',
+    -- TODO: Add a schema name
     partition_by={
       "field": "date",
       "data_type": "date",

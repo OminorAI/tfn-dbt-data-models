@@ -1,4 +1,7 @@
-{{ config(materialized='view') }}
+{{ config(
+  materialized='view'
+  -- TODO: Add a schema name
+) }}
 
 -- NITO Loads
 

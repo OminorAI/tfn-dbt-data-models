@@ -1,5 +1,6 @@
 {{ config(
   materialized='view'
+  -- TODO: Add a schema name
 ) }}
 
 WITH buyer_order_litres AS (
